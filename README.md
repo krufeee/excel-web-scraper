@@ -14,9 +14,11 @@ E-commerce managers
 
 Price comparison teams
 
+
 How to run
 
 pip install -r requirements.txt
-
-
 python scraper.py
+
+
+License: MIT
