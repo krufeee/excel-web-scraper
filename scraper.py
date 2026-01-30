@@ -5,13 +5,24 @@ import pandas as pd
 
 
 def get_promotion_period(soup):
+    print(soup.prettify())
     promotion_period = soup.find('h1', class_='content-title').text.split()[0]
     return promotion_period
 
+def clean_price(raw_price):
+    return float(
+        raw_price
+        .replace("лв.", "")
+        .replace(" ", "")
+        .replace(",", ".")
+    )
+
 def get_number_of_pages(soup):
-    number_of_product_pages = soup.select_one('cx-pagination a.end')['href'].split('=')[1]
-    number_of_product_pages = int(number_of_product_pages)
-    return number_of_product_pages
+    end_btn = soup.select_one('cx-pagination a.end')
+    if not end_btn:
+        return 1
+    return int(end_btn['href'].split('=')[1])
+
 
 def extract_products(product_card):
     try:
@@ -24,10 +35,11 @@ def extract_products(product_card):
         else:
             full_link = product_link
         product_price = product_card.find('span', class_='product-box__price-value').text
+        product_price = clean_price(product_price)
 
         return{ 'name': name,
                 'link': full_link,
-                'price': float(product_price)
+                'price': product_price
             }
 
     except AttributeError:
@@ -50,12 +62,11 @@ def scrape_promotions():
     response = requests.get(target_url)
     soup = BeautifulSoup(response.text, 'html.parser')
     products_list = []
-    current_page = 0
     promotion_period = get_promotion_period(soup)
     number_of_product_pages = get_number_of_pages(soup)
 
-    for page in range(1, number_of_product_pages + 1):
-        target_url = f'https://www.technopolis.bg/bg/c/Promotions?currentPage={current_page}'
+    for page in range(number_of_product_pages):
+        target_url = f'https://www.technopolis.bg/bg/c/Promotions?currentPage={page}'
         response = requests.get(target_url)
         soup = BeautifulSoup(response.text, 'html.parser')
         product_card = soup.find_all('te-product-box')
@@ -67,8 +78,7 @@ def scrape_promotions():
                 continue
 
         print(f"Scraped page {page}/{number_of_product_pages}, total products: {len(products_list)}")
-        current_page += 1
-    clean_products_entities(products_list)
+    products_list = clean_products_entities(products_list)
     export_to_excel(products_list, promotion_period)
 
 scrape_promotions()
