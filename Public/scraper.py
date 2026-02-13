@@ -120,6 +120,7 @@ def run():
 
             # Convert back to dictionaries
             unique_products = [dict(p) for p in unique_products]
+            unique_products = sorted(unique_products, key=lambda x: x["price"])
 
             promotion_period_element = page.query_selector('.content-title')
             promotion_period = promotion_period_element.inner_text()
