@@ -98,6 +98,7 @@ def run():
             number_of_pages = pagination["totalPages"]
             number_of_products = pagination["totalResults"]
             print(f'Found {number_of_pages} pages.')
+            print(f'Found {number_of_products} products.')
 
             clean_products = []
 
