@@ -114,7 +114,7 @@ def run():
                     print(f'Extracted {len(clean_products)} products.')
 
 
-            print(f'Removing duplicate products.')
+            print(f'Removing duplicating products.')
             # convert the list into a set to remove duplicates
             unique_products = list({frozenset(p.items()) for p in clean_products})
 
