@@ -124,7 +124,7 @@ def run():
 
             promotion_period_element = page.query_selector('.content-title')
             promotion_period = promotion_period_element.inner_text()
-            print(f'Extracted {len(clean_products)} unique products.')
+            print(f'Extracted {len(unique_products)} unique products.')
 
             export_to_excel(unique_products, promotion_period.split()[0])
 
