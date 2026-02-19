@@ -86,7 +86,7 @@ def run():
                 print('Ad closed.')
 
             except:
-                print("Ad did not showed up.")
+                print("Ad did not show up.")
 
             page.wait_for_timeout(2000)
 
