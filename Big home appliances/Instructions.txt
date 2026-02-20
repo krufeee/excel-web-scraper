@@ -1,0 +1,15 @@
+Only before first use:
+
+1 Install python from Python/python-manager-25.2
+2 Open terminal with right click in script folder
+	2.1 Enter following commands:
+		pip install playwright
+		pip install pandas
+		playwright install 
+		if error enter:
+ 			python -m playwright install
+		pip install openpyxl
+
+After first use:
+
+Run Extract
